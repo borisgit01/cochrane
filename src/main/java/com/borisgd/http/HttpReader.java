@@ -142,6 +142,7 @@ public class HttpReader {
                         int indexOfClosingButtonTag = line.indexOf("<", indexOfTopicName + 1);
                         String topicName = line.substring(indexOfTopicName + topicNameMark.length(), indexOfClosingButtonTag);
                         System.out.println("topic name " + topicName);
+                        review.setTopicName(topicName);
                         revies.add(review);
                         topicFound = false;
                     }
