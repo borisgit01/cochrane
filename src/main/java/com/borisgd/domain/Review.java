@@ -8,6 +8,10 @@ public class Review {
     private String author;
     private String date;
 
+    public String toString() {
+        return "url [" + url + "] topicName [" + topicName + "] title [" + title + "] author [" + author + "] date [" + date + "]";
+    }
+
     public String getUrl() {
         return url;
     }

@@ -3,6 +3,7 @@ package com.borisgd;
 import com.borisgd.domain.Review;
 import com.borisgd.domain.ReviewResponse;
 import com.borisgd.domain.Topic;
+import com.borisgd.files.PipeDelimitedFileWriter;
 import com.borisgd.http.HttpReader;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -36,11 +37,16 @@ public class Main {
             ReviewResponse response = new ReviewResponse();
             response.setReviews(new ArrayList<>());
             response.setNextUrl(null);
-            response = httpReader.readReviews(topics.get(0), response, httpClient);
+            response = httpReader.readNext(topics.get(0), response, httpClient);
             while(response.getNextUrl() != null) {
                 topics.get(0).setUrl(response.getNextUrl());
                 response = httpReader.readNext(topics.get(0), response, httpClient);
             }
+            System.out.println("main: have " + response.getReviews().size() + " reviews");
+            PipeDelimitedFileWriter.write(response.getReviews(), "cochrane_reviews.txt", "https://www.cochranelibrary.com");
+            //for(Review r : response.getReviews()) {
+            //    System.out.println(r);
+            //}
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
